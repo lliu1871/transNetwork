@@ -1,4 +1,3 @@
-
 # transNetwork <img src="man/figures/logo.png" align="right" height="139" />
 
 [![R-CMD-check](https://github.com/lliu1871/transNetwork/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lliu1871/transNetwork/actions)
@@ -8,13 +7,13 @@ The goal of **transNetwork** is to provide a unified framework for simulating, r
 
   * **Simulation**: Generate stochastic outbreaks with custom latent and infectious periods.
   * **Reconstruction**: Build transmission trees from MCMC output (BetNet).
-  * **Phylogenetics**: Convert transmission histories into phylogenetic "gene trees" using the multispecies coalescent.
+  * **Phylogenetics**: Convert transmission histories into phylogenetic trees.
   * **Metrics**: Calculate pairwise transmission distances and Most Recent Common Infectors (MRCI).
   * **Visualization**: High-level plotting functions for networks, timelines, and trees.
 
 ## Installation
 
-You can install the development version of **transNetwork** from [GitHub](https://www.google.com/search?q=https://github.com/lliu1871/transNetwork) with:
+You can install the development version of **transNetwork** from [GitHub](https://github.com/lliu1871/transNetwork) with:
 
 ```r
 # install.packages("devtools")
@@ -43,6 +42,4 @@ transplot(outbreak_data, style = 1)
 ## Research Context
 
 This package was developed for academic researchers in **evolutionary genomics** and **phylogenetics**. It specifically addresses the "coalescent lag" between transmission events and genetic divergence, allowing for more accurate benchmarking of molecular clock models in outbreak settings.
-
------
 

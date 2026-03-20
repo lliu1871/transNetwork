@@ -12,7 +12,7 @@ transmission networks using genomic and epidemiological data.
 - **Reconstruction**: Build transmission trees from MCMC output
   (BetNet).
 - **Phylogenetics**: Convert transmission histories into phylogenetic
-  “gene trees” using the multispecies coalescent.
+  trees.
 - **Metrics**: Calculate pairwise transmission distances and Most Recent
   Common Infectors (MRCI).
 - **Visualization**: High-level plotting functions for networks,
@@ -21,8 +21,7 @@ transmission networks using genomic and epidemiological data.
 ## Installation
 
 You can install the development version of **transNetwork** from
-[GitHub](https://www.google.com/search?q=https://github.com/lliu1871/transNetwork)
-with:
+[GitHub](https://github.com/lliu1871/transNetwork) with:
 
 ``` r
 # install.packages("devtools")
@@ -57,5 +56,3 @@ genomics** and **phylogenetics**. It specifically addresses the
 “coalescent lag” between transmission events and genetic divergence,
 allowing for more accurate benchmarking of molecular clock models in
 outbreak settings.
-
-------------------------------------------------------------------------
