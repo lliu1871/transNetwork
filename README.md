@@ -1,8 +1,3 @@
-Since your package is now passing all checks, a solid **README.md** is the final step to make it accessible to your collaborators and the wider research community. This file will serve as the "front door" of your project on GitHub.
-
-Create a file named `README.md` in your package's root directory and paste the following content:
-
------
 
 # transNetwork <img src="man/figures/logo.png" align="right" height="139" />
 
