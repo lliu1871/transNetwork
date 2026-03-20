@@ -4,7 +4,7 @@ Create a file named `README.md` in your package's root directory and paste the f
 
 -----
 
-# transNetwork \<img src="man/figures/logo.png" align="right" height="139" /\>
+# transNetwork <img src="man/figures/logo.png" align="right" height="139" />
 
 [](https://www.google.com/search?q=https://github.com/lliu1871/transNetwork/actions)
 The goal of **transNetwork** is to provide a unified framework for simulating, reconstructing, and visualizing infectious disease transmission networks using genomic and epidemiological data.
