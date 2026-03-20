@@ -1,0 +1,39 @@
+url: https://lliu1871.github.io/transNetwork
+template:
+  bootstrap: 5
+  bootswatch: morph  # Optional: 'morph' or 'zephyr' are clean for academic work
+
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: Get Started
+      href: index.html
+
+reference:
+  - title: Simulation
+    desc: Functions for generating stochastic outbreaks and trees.
+    contents:
+      - simulate_outbreak
+      - build_timetree
+      - sim_phytree
+      - add_coalescent_distance
+  - title: Analysis & Metrics
+    desc: Tools for summarizing MCMC output and calculating distances.
+    contents:
+      - summary_betnet
+      - find_mrci
+      - find_infectors
+      - find_all_pairwise_distances
+  - title: Data Conversion
+    desc: Internal utilities for formatting and transforming data.
+    contents:
+      - transmission_edges_matrixwiw 
+      - ttree_from_transmission      
+  - title: Visualization
+    desc: Plotting transmission networks and timelines.
+    contents:
+      - transplot
+      

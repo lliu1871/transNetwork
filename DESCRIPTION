@@ -1,0 +1,25 @@
+Package: transNetwork
+Title: Transmission Network Reconstruction and Simulation
+Version: 1.0
+Authors@R: 
+    c(person("Liang", "Liu", , "lliu@uga.edu", role = c("aut", "cre")),
+      person("Jihyun", "Kim", , "jihyun.kim@uga.edu", role = "aut"))   
+Description: This package provides functions to simulate outbreaks, transmission networks, and DNA sequence data for infectious disease. 
+URL: https://github.com/lliu1871/transNetwork, https://lliu1871.github.io/transNetwork
+BugReports: https://github.com/lliu1871/transNetwork/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    ape,
+    graphics,
+    stats,
+    phybase,
+    igraph
+Remotes: 
+    lliu1871/phybase
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
