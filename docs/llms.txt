@@ -1,6 +1,6 @@
 # transNetwork
 
-[![R-CMD-check](https://github.com/lliu1871/transNetwork/workflows/R-CMD-check/badge.svg)](https://github.com/lliu1871/transNetwork/actions)
+[![R-CMD-check](https://github.com/lliu1871/transNetwork/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/lliu1871/transNetwork/actions)
 The goal of **transNetwork** is to provide a unified framework for
 simulating, reconstructing, and visualizing infectious disease
 transmission networks using genomic and epidemiological data.
