@@ -2,7 +2,8 @@ url: https://lliu1871.github.io/transNetwork
 template:
   bootstrap: 5
   bootswatch: morph  # Optional: 'morph' or 'zephyr' are clean for academic work
-
+  params:
+    logo: man/figures/logo.png
 navbar:
   structure:
     left:  [intro, reference, articles, news]
