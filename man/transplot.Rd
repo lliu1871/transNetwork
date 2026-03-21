@@ -7,9 +7,9 @@
 transplot(
   transmission,
   style = 1,
-  vertex_colors = rep("lightblue", length(transmission[, 1])),
-  vertex_sizes = rep(12, length(transmission[, 1])),
-  vertex_label_cex = rep(1.5, length(transmission[, 1])),
+  vcolor = "lightblue",
+  vsize = 12,
+  label.cex = 1.5,
   showlabel = TRUE,
   dateLastSample = 2008
 )
@@ -21,11 +21,11 @@ Must contain 'infector', 'infectee', and 'prob'.}
 \item{style}{Integer. 1 for standard network, 2 for rooted tree,
 3 for timeline, 4 for detailed transmission plot.}
 
-\item{vertex_colors}{Character vector of colors for the nodes.}
+\item{vcolor}{node color.}
 
-\item{vertex_sizes}{Numeric vector of node sizes.}
+\item{vsize}{node size.}
 
-\item{vertex_label_cex}{Numeric vector for vertex label scaling.}
+\item{label.cex}{node label scaling.}
 
 \item{showlabel}{Logical. If TRUE, displays probability weights on edges.}
 

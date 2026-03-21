@@ -28,6 +28,7 @@ Here is a basic example of how to simulate an outbreak and visualize the transmi
 
 ```r
 library(transNetwork)
+library(TransPhylo)
 
 # 1. Simulate an outbreak of 50 individuals
 outbreak_data <- simulate_outbreak(target_size = 50, infection_rate = 1.5)
@@ -35,8 +36,15 @@ outbreak_data <- simulate_outbreak(target_size = 50, infection_rate = 1.5)
 # 2. Build a time tree from the transmission distances
 time_tree <- build_timetree(outbreak_data, plot = TRUE)
 
-# 3. Plot the detailed transmission network
-transplot(outbreak_data, style = 1)
+# 3. TransPhylo analysis
+ptree <- ptreeFromPhylo(time_tree, dateLastSample = 2007.964)
+res <- inferTTree(ptree, mcmcIterations = 10000, w.shape = 10, w.scale = 0.1, dateT = 2008)
+
+# 4. Plot the estimated transmission network
+matrixwiw <- computeMatWIW(res, burnin = 0.5)
+netedges <- transmission_edges_matrixwiw(matrixwiw)
+transplot(netedges, style = 1)
+
 ```
 
 ## Research Context

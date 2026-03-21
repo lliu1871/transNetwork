@@ -9,9 +9,9 @@ timeline, depending on the chosen style.
 transplot(
   transmission,
   style = 1,
-  vertex_colors = rep("lightblue", length(transmission[, 1])),
-  vertex_sizes = rep(12, length(transmission[, 1])),
-  vertex_label_cex = rep(1.5, length(transmission[, 1])),
+  vcolor = "lightblue",
+  vsize = 12,
+  label.cex = 1.5,
   showlabel = TRUE,
   dateLastSample = 2008
 )
@@ -29,17 +29,17 @@ transplot(
   Integer. 1 for standard network, 2 for rooted tree, 3 for timeline, 4
   for detailed transmission plot.
 
-- vertex_colors:
+- vcolor:
 
-  Character vector of colors for the nodes.
+  node color.
 
-- vertex_sizes:
+- vsize:
 
-  Numeric vector of node sizes.
+  node size.
 
-- vertex_label_cex:
+- label.cex:
 
-  Numeric vector for vertex label scaling.
+  node label scaling.
 
 - showlabel:
 

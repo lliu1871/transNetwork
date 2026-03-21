@@ -7,9 +7,9 @@
 #'   Must contain 'infector', 'infectee', and 'prob'.
 #' @param style Integer. 1 for standard network, 2 for rooted tree, 
 #'   3 for timeline, 4 for detailed transmission plot.
-#' @param vertex_colors Character vector of colors for the nodes.
-#' @param vertex_sizes Numeric vector of node sizes.
-#' @param vertex_label_cex Numeric vector for vertex label scaling.
+#' @param vcolor node color.
+#' @param vsize node size.
+#' @param label.cex node label scaling.
 #' @param showlabel Logical. If TRUE, displays probability weights on edges.
 #' @param dateLastSample Numeric. The reference year/date for timeline styles.
 #'
@@ -20,36 +20,44 @@
 #' @importFrom graphics plot legend
 #' @export
 
-transplot <- function(transmission, style = 1, vertex_colors = rep("lightblue", length(transmission[, 1])), vertex_sizes = rep(12, length(transmission[, 1])), vertex_label_cex = rep(1.5, length(transmission[, 1])), showlabel = TRUE, dateLastSample = 2008) {
+transplot <- function(transmission, style = 1, vcolor = "lightblue", vsize = 12, label.cex = 1.5, showlabel = TRUE, dateLastSample = 2008) {
   # Filter out zero-probability (and missing) edges for plotting only
   edges_plot <- transmission
-  # treat NA as zero for plotting purposes
-  edges_plot$prob[is.na(edges_plot$prob)] <- 0
-  edges_plot <- edges_plot[edges_plot$prob > 0, , drop = FALSE]
-  if (nrow(edges_plot) == 0) {
-    stop("No edges with prob > 0 to plot; skipping plotting.")
-  }
+  
   # convert NA infector (external) to "source"
   edges_plot$infector[is.na(edges_plot$infector)] <- "source"
-  # create a graph
+  
+  # Create the graph first
   g <- graph_from_data_frame(edges_plot[, c("infector", "infectee")], directed = TRUE)
   V(g)$name <- as.character(V(g)$name)
+  
+  # Use vcount(g) to get the correct number of unique individuals
+  n_unique_vertices <- vcount(g)
+  
+  # Initialize attributes using the correct length
+  vertex_colors    <- rep(vcolor, n_unique_vertices)
+  vertex_sizes     <- rep(vsize, n_unique_vertices)
+  vertex_label_cex <- rep(label.cex, n_unique_vertices)
+  
+  # Now target_idx will map correctly to these vectors
   target_idx <- which(V(g)$name == "1")
   if (length(target_idx) == 1) {
     vertex_colors[target_idx] <- "grey"
-    vertex_sizes[target_idx] <- vertex_sizes[target_idx] + 2
+    vertex_sizes[target_idx]  <- vertex_sizes[target_idx] + 2
     vertex_label_cex[target_idx] <- vertex_label_cex[target_idx] + 0.2
   }
-  E(g)$weight <- round(edges_plot$prob, digits = 2)
+  
+  # add color and label
+  #E(g)$weight <- round(edges_plot$prob, digits = 10)
   E(g)$color <- ifelse(edges_plot$prob < 0.5, "pink",
-    ifelse(edges_plot$prob < 0.75, "#a1a112", "#6b1a1a")
+                       ifelse(edges_plot$prob < 0.75, "#a1a112", "#6b1a1a")
   )
   if (showlabel) {
-    E(g)$label <- as.character(E(g)$weight)
+    E(g)$label <- as.character(round(edges_plot$prob,2))
   } else {
     E(g)$label <- ""
   }
-
+  
   if (style == 1) { # network style plot
     plot(
       g,
@@ -65,9 +73,15 @@ transplot <- function(transmission, style = 1, vertex_colors = rep("lightblue", 
   } else if (style == 2) { # rooted-tree-style plot
     root_name <- if ("source" %in% V(g)$name) "source" else V(g)$name[1]
     layout <- layout_as_tree(g, root = which(V(g)$name == root_name))
+    edge_type <- rep(1,nvertex)
+    edge_type[which(V(g)$name == root_name)] <- 3
+    E(g)$color[edges_plot$prob==0] <- 'grey'
+    vertex_colors[which(V(g)$name == root_name)] <- "grey"
+    vertex_colors[target_idx] <- vcolor
     plot(
       g,
       layout = layout,
+      edge.lty = edge_type,
       vertex.size = vertex_sizes,
       vertex.color = vertex_colors,
       vertex.label.cex = vertex_label_cex,
