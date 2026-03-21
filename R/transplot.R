@@ -50,7 +50,7 @@ transplot <- function(transmission, style = 1, vertex_colors = rep("lightblue", 
     E(g)$label <- ""
   }
 
-  if (style == 1) { # network styple plot
+  if (style == 1) { # network style plot
     plot(
       g,
       vertex.size = vertex_sizes,

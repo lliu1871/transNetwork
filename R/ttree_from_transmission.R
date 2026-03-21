@@ -19,9 +19,9 @@ ttree_from_transmission <- function(outbreak, dateLastSample) {
   outbreak$onsite_time <- outbreak$removal_time - outbreak$infectious_period
   outbreak$infection_time <- outbreak$onsite_time - outbreak$latent_period
 
-  ttree <- cbind(outbreak$infection_time, outbreak$removal_time, outbreak$parent_id)
+  ttree <- cbind(outbreak$infection_time, outbreak$removal_time, outbreak$infector)
   ttree[1, 3] <- 0
-  name <- as.character(outbreak$id)
+  name <- as.character(outbreak$infectee)
   tree <- list(ttree = ttree, nam = name)
   class(tree) <- "ttree"
   tree

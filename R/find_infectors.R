@@ -19,7 +19,7 @@ find_infectors <- function(outbreak, id, include_self = TRUE) {
     warning("id not found in outbreak")
     return(integer(0))
   }
-  parent_map <- stats::setNames(as.integer(outbreak$parent_id), as.character(outbreak$id))
+  parent_map <- stats::setNames(as.integer(outbreak$infector), as.character(outbreak$infectee))
   res <- integer(0)
   cur <- id
   if (include_self) res <- c(res, cur)
