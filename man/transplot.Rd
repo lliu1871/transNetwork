@@ -16,7 +16,7 @@ transplot(
 }
 \arguments{
 \item{transmission}{A data frame representing the transmission matrix.
-Must contain 'parent_id', 'id', and 'infector_post_probability'.}
+Must contain 'infector', 'infectee', and 'prob'.}
 
 \item{style}{Integer. 1 for standard network, 2 for rooted tree,
 3 for timeline, 4 for detailed transmission plot.}

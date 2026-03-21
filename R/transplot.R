@@ -4,7 +4,7 @@
 #' or a timeline, depending on the chosen style.
 #'
 #' @param transmission A data frame representing the transmission matrix. 
-#'   Must contain 'parent_id', 'id', and 'infector_post_probability'.
+#'   Must contain 'infector', 'infectee', and 'prob'.
 #' @param style Integer. 1 for standard network, 2 for rooted tree, 
 #'   3 for timeline, 4 for detailed transmission plot.
 #' @param vertex_colors Character vector of colors for the nodes.
@@ -24,15 +24,15 @@ transplot <- function(transmission, style = 1, vertex_colors = rep("lightblue", 
   # Filter out zero-probability (and missing) edges for plotting only
   edges_plot <- transmission
   # treat NA as zero for plotting purposes
-  edges_plot$infector_post_probability[is.na(edges_plot$infector_post_probability)] <- 0
-  edges_plot <- edges_plot[edges_plot$infector_post_probability > 0, , drop = FALSE]
+  edges_plot$prob[is.na(edges_plot$prob)] <- 0
+  edges_plot <- edges_plot[edges_plot$prob > 0, , drop = FALSE]
   if (nrow(edges_plot) == 0) {
     stop("No edges with prob > 0 to plot; skipping plotting.")
   }
   # convert NA infector (external) to "source"
-  edges_plot$parent_id[is.na(edges_plot$parent_id)] <- "source"
+  edges_plot$infector[is.na(edges_plot$infector)] <- "source"
   # create a graph
-  g <- graph_from_data_frame(edges_plot[, c("parent_id", "id")], directed = TRUE)
+  g <- graph_from_data_frame(edges_plot[, c("infector", "infectee")], directed = TRUE)
   V(g)$name <- as.character(V(g)$name)
   target_idx <- which(V(g)$name == "1")
   if (length(target_idx) == 1) {
@@ -40,9 +40,9 @@ transplot <- function(transmission, style = 1, vertex_colors = rep("lightblue", 
     vertex_sizes[target_idx] <- vertex_sizes[target_idx] + 2
     vertex_label_cex[target_idx] <- vertex_label_cex[target_idx] + 0.2
   }
-  E(g)$weight <- round(edges_plot$infector_post_probability, digits = 2)
-  E(g)$color <- ifelse(edges_plot$infector_post_probability < 0.5, "pink",
-    ifelse(edges_plot$infector_post_probability < 0.75, "#a1a112", "#6b1a1a")
+  E(g)$weight <- round(edges_plot$prob, digits = 2)
+  E(g)$color <- ifelse(edges_plot$prob < 0.5, "pink",
+    ifelse(edges_plot$prob < 0.75, "#a1a112", "#6b1a1a")
   )
   if (showlabel) {
     E(g)$label <- as.character(E(g)$weight)

@@ -22,7 +22,7 @@ transplot(
 - transmission:
 
   A data frame representing the transmission matrix. Must contain
-  'parent_id', 'id', and 'infector_post_probability'.
+  'infector', 'infectee', and 'prob'.
 
 - style:
 
