@@ -16,7 +16,7 @@
 #' @return The function primarily produces a plot to the active graphics device. 
 #'   It returns \code{NULL} invisibly.
 #' 
-#' @importFrom igraph graph_from_data_frame V E V<- E<- layout_as_tree
+#' @importFrom igraph graph_from_data_frame V E V<- E<- layout_as_tree vcount
 #' @importFrom graphics plot legend
 #' @export
 
