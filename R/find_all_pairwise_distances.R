@@ -18,12 +18,12 @@ find_all_pairwise_distances <- function(outbreak, return_matrix = TRUE) {
     stop("outbreak must be a data.frame with columns 'infectee','infector','infection_time','removal_time'")
   }
 
-  ids <- outbreak$id
+  ids <- outbreak$infectee
   n <- length(ids)
 
   # maps for quick lookup
-  inf_time <- stats::setNames(as.numeric(outbreak$infection_time), as.character(outbreak$id))
-  rem_time <- stats::setNames(as.numeric(outbreak$removal_time), as.character(outbreak$id))
+  inf_time <- stats::setNames(as.numeric(outbreak$infection_time), as.character(outbreak$infectee))
+  rem_time <- stats::setNames(as.numeric(outbreak$removal_time), as.character(outbreak$infectee))
 
   # build ancestor chains for each id (include self so MRCA can be one of the ids)
   chains <- lapply(ids, function(x) find_infectors(outbreak, x, include_self = TRUE))
