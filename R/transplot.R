@@ -20,12 +20,11 @@
 #' @importFrom graphics plot legend
 #' @export
 
-transplot <- function(transmission, style = 1, vcolor = "lightblue", vsize = 12, label.cex = 1.5, showlabel = TRUE, dateLastSample = 2008) {
-  # Filter out zero-probability (and missing) edges for plotting only
+transplot <- function(transmission, style = 1, vcolor = "lightblue", vsize = 12, label.cex = 1.5, showlabel = FALSE, dateLastSample = 2008) {
+  # Filter out NA infectors and edges with prob<0.1
   edges_plot <- transmission
-  
-  # convert NA infector (external) to "source"
-  edges_plot$infector[is.na(edges_plot$infector)] <- "source"
+  edges_plot <- edges_plot[!is.na(edges_plot$infector),]
+  edges_plot <- edges_plot[which(edges_plot$prob>0.1),]
   
   # Create the graph first
   g <- graph_from_data_frame(edges_plot[, c("infector", "infectee")], directed = TRUE)
@@ -39,16 +38,16 @@ transplot <- function(transmission, style = 1, vcolor = "lightblue", vsize = 12,
   vertex_sizes     <- rep(vsize, n_unique_vertices)
   vertex_label_cex <- rep(label.cex, n_unique_vertices)
   
-  # Now target_idx will map correctly to these vectors
-  target_idx <- which(V(g)$name == "1")
-  if (length(target_idx) == 1) {
+  # Find the root of the network
+  root_name <- V(g)$name[is.na(match(V(g)$name,as.character(edges_plot$infectee)))]
+  target_idx <- which(V(g)$name == root_name)
+  if (length(root_name) == 1) {
     vertex_colors[target_idx] <- "grey"
     vertex_sizes[target_idx]  <- vertex_sizes[target_idx] + 2
     vertex_label_cex[target_idx] <- vertex_label_cex[target_idx] + 0.2
   }
   
   # add color and label
-  #E(g)$weight <- round(edges_plot$prob, digits = 10)
   E(g)$color <- ifelse(edges_plot$prob < 0.5, "pink",
                        ifelse(edges_plot$prob < 0.75, "#a1a112", "#6b1a1a")
   )
@@ -69,25 +68,19 @@ transplot <- function(transmission, style = 1, vcolor = "lightblue", vsize = 12,
       # edge.label.cex = 1.5,
       edge.color = E(g)$color
     )
-    legend("topright", legend = c("< 0.5", "0.5 - 0.75", "> 0.75"), col = c("pink", "#a1a112", "#6b1a1a"), pch = 19, bty = "n", cex = 1.5)
+    legend("topright", legend = c("< 0.5", "0.5 - 0.75", "> 0.75"), col = c("pink", "#a1a112", "#6b1a1a"), pch = 19, bty = "n", cex = 1.0)
   } else if (style == 2) { # rooted-tree-style plot
-    root_name <- if ("source" %in% V(g)$name) "source" else V(g)$name[1]
     layout <- layout_as_tree(g, root = which(V(g)$name == root_name))
-    edge_type <- rep(1,nvertex)
-    edge_type[which(V(g)$name == root_name)] <- 3
-    E(g)$color[edges_plot$prob==0] <- 'grey'
-    vertex_colors[which(V(g)$name == root_name)] <- "grey"
-    vertex_colors[target_idx] <- vcolor
     plot(
       g,
       layout = layout,
-      edge.lty = edge_type,
+      #edge.lty = edge_type,
       vertex.size = vertex_sizes,
       vertex.color = vertex_colors,
       vertex.label.cex = vertex_label_cex,
       edge.color = E(g)$color
     )
-    legend("topright", legend = c("< 0.5", "0.5 - 0.75", "> 0.75"), col = c("pink", "#a1a112", "#6b1a1a"), pch = 19, bty = "n", cex = 1.5)
+    legend("topright", legend = c("< 0.5", "0.5 - 0.75", "> 0.75"), col = c("pink", "#a1a112", "#6b1a1a"), pch = 19, bty = "n", cex = 1.0)
   } else if (style == 3) { # timeline style plot
     ttree <- ttree_from_transmission(transmission, dateLastSample = dateLastSample)
     plot(ttree)

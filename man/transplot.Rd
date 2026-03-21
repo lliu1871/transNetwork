@@ -10,7 +10,7 @@ transplot(
   vcolor = "lightblue",
   vsize = 12,
   label.cex = 1.5,
-  showlabel = TRUE,
+  showlabel = FALSE,
   dateLastSample = 2008
 )
 }
