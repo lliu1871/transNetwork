@@ -7,7 +7,7 @@
 find_all_pairwise_distances(outbreak, return_matrix = TRUE)
 }
 \arguments{
-\item{outbreak}{A data frame with 'id', 'parent_id', 'infection_time', and 'removal_time'.}
+\item{outbreak}{A data frame with 'infectee', 'infector', 'infection_time', and 'removal_time'.}
 
 \item{return_matrix}{Logical. If TRUE (default), returns a symmetric $nxn$
 numeric matrix. If FALSE, returns a long-format data frame.}
@@ -15,7 +15,7 @@ numeric matrix. If FALSE, returns a long-format data frame.}
 \value{
 If \code{return_matrix} is TRUE, a symmetric \code{matrix}.
 Otherwise, a \code{data.frame} containing columns for both IDs, the shared
-parent, the parent's infection time, and the calculated distance.
+infector, the infector's infection time, and the calculated distance.
 }
 \description{
 Calculates the temporal distance between every pair of individuals in an

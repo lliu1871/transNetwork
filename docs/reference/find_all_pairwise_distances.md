@@ -13,7 +13,7 @@ find_all_pairwise_distances(outbreak, return_matrix = TRUE)
 
 - outbreak:
 
-  A data frame with 'id', 'parent_id', 'infection_time', and
+  A data frame with 'infectee', 'infector', 'infection_time', and
   'removal_time'.
 
 - return_matrix:
@@ -24,5 +24,5 @@ find_all_pairwise_distances(outbreak, return_matrix = TRUE)
 ## Value
 
 If `return_matrix` is TRUE, a symmetric `matrix`. Otherwise, a
-`data.frame` containing columns for both IDs, the shared parent, the
-parent's infection time, and the calculated distance.
+`data.frame` containing columns for both IDs, the shared infector, the
+infector's infection time, and the calculated distance.

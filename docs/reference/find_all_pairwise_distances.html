@@ -51,7 +51,7 @@ outbreak based on their Most Recent Common Infector (MRCI).</p>
 
 
 <dl><dt id="arg-outbreak">outbreak<a class="anchor" aria-label="anchor" href="#arg-outbreak"></a></dt>
-<dd><p>A data frame with 'id', 'parent_id', 'infection_time', and 'removal_time'.</p></dd>
+<dd><p>A data frame with 'infectee', 'infector', 'infection_time', and 'removal_time'.</p></dd>
 
 
 <dt id="arg-return-matrix">return_matrix<a class="anchor" aria-label="anchor" href="#arg-return-matrix"></a></dt>
@@ -63,7 +63,7 @@ numeric matrix. If FALSE, returns a long-format data frame.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>If <code>return_matrix</code> is TRUE, a symmetric <code>matrix</code>.
 Otherwise, a <code>data.frame</code> containing columns for both IDs, the shared
-parent, the parent's infection time, and the calculated distance.</p>
+infector, the infector's infection time, and the calculated distance.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

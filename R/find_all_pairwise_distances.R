@@ -3,19 +3,19 @@
 #' Calculates the temporal distance between every pair of individuals in an 
 #' outbreak based on their Most Recent Common Infector (MRCI).
 #'
-#' @param outbreak A data frame with 'id', 'parent_id', 'infection_time', and 'removal_time'.
+#' @param outbreak A data frame with 'infectee', 'infector', 'infection_time', and 'removal_time'.
 #' @param return_matrix Logical. If TRUE (default), returns a symmetric $nxn$ 
 #'   numeric matrix. If FALSE, returns a long-format data frame.
 #'
 #' @return If \code{return_matrix} is TRUE, a symmetric \code{matrix}. 
 #'   Otherwise, a \code{data.frame} containing columns for both IDs, the shared 
-#'   parent, the parent's infection time, and the calculated distance.
+#'   infector, the infector's infection time, and the calculated distance.
 #' 
 #' @importFrom stats setNames
 #' @export
 find_all_pairwise_distances <- function(outbreak, return_matrix = TRUE) {
-  if (!is.data.frame(outbreak) || !all(c("id", "parent_id", "infection_time", "removal_time") %in% names(outbreak))) {
-    stop("outbreak must be a data.frame with columns 'id','parent_id','infection_time','removal_time'")
+  if (!is.data.frame(outbreak) || !all(c("infectee", "infector", "infection_time", "removal_time") %in% names(outbreak))) {
+    stop("outbreak must be a data.frame with columns 'infectee','infector','infection_time','removal_time'")
   }
 
   ids <- outbreak$id
