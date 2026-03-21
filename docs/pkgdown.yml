@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   outbreak-workflow: outbreak-workflow.html
-last_built: 2026-03-21T05:08Z
+last_built: 2026-03-21T05:13Z
 urls:
   reference: https://lliu1871.github.io/transNetwork/reference
   article: https://lliu1871.github.io/transNetwork/articles

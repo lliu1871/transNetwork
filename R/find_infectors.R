@@ -13,9 +13,9 @@
 #' @importFrom stats setNames
 #' @export
 find_infectors <- function(outbreak, id, include_self = TRUE) {
-  if (!is.data.frame(outbreak) || !all(c("id", "parent_id") %in% names(outbreak))) stop("outbreak must be a data.frame with 'id' and 'parent_id'")
+  if (!is.data.frame(outbreak) || !all(c("infectee", "infector") %in% names(outbreak))) stop("outbreak must be a data.frame with 'infectee' and 'infector'")
   id <- as.integer(id)
-  if (!(id %in% outbreak$id)) {
+  if (!(id %in% outbreak$infectee)) {
     warning("id not found in outbreak")
     return(integer(0))
   }
