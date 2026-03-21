@@ -24,8 +24,8 @@ You can install the development version of **transNetwork** from
 [GitHub](https://github.com/lliu1871/transNetwork) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("lliu1871/transNetwork")
+# install.packages("pak")
+pak::pak("lliu1871/transNetwork")
 ```
 
 *Note: This will automatically install the necessary dependencies,
