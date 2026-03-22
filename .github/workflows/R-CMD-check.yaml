@@ -19,6 +19,8 @@ jobs:
         with:
           use-public-rspm: true
 
+      - uses: r-lib/actions/setup-pandoc@v2
+
       - uses: julia-actions/setup-julia@v2
         with:
           version: '1.10'
@@ -26,12 +28,12 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libglpk-dev libxml2-dev
+          sudo apt-get install -y libcurl4-openssl-dev libglpk-dev libxml2-dev seq-gen
         shell: bash
 
       - name: Install R Dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"))
+          install.packages(c("remotes", "rcmdcheck", "knitr", "rmarkdown"))
           remotes::install_deps(dependencies = TRUE)
           if (!requireNamespace("TransPhylo", quietly = TRUE)) {
             remotes::install_github("xavierdidelot/TransPhylo")
@@ -41,6 +43,5 @@ jobs:
       - name: Check
         uses: r-lib/actions/check-r-package@v2
         with:
-          # Fixed the quoting that caused the 'no' object error
           args: 'c("--no-manual", "--as-cran")'
           error-on: '"error"'
