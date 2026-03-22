@@ -26,7 +26,7 @@ You can install the development version of **transNetwork** from
 
 ``` r
 # install.packages("pak")
-pak::pak("lliu1871/transNetwork")
+#pak::pak("lliu1871/transNetwork")
 ```
 
 *Note: This will automatically install the necessary dependencies,
@@ -39,7 +39,7 @@ transmission network:
 
 ``` r
 library(transNetwork)
-library(TransPhylo)
+#library(TransPhylo)
 
 # 1. Simulate an outbreak of 50 individuals
 outbreak_data <- simulate_outbreak(target_size = 50, infection_rate = 1.5)

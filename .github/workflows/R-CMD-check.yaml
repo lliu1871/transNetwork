@@ -28,7 +28,7 @@ jobs:
 
       - name: Install R Dependencies
         run: |
-          install.packages("remotes")
+          install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
           # Explicitly ensuring TransPhylo is present
           if (!requireNamespace("TransPhylo", quietly = TRUE)) {

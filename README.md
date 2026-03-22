@@ -17,7 +17,7 @@ You can install the development version of **transNetwork** from [GitHub](https:
 
 ```r
 # install.packages("pak")
-pak::pak("lliu1871/transNetwork")
+#pak::pak("lliu1871/transNetwork")
 ```
 
 *Note: This will automatically install the necessary dependencies, including `ape`, `igraph`, and `phybase`.*
@@ -28,7 +28,7 @@ Here is a basic example of how to simulate an outbreak and visualize the transmi
 
 ```r
 library(transNetwork)
-library(TransPhylo)
+#library(TransPhylo)
 
 # 1. Simulate an outbreak of 50 individuals
 outbreak_data <- simulate_outbreak(target_size = 50, infection_rate = 1.5)

@@ -2,7 +2,7 @@
 
 ``` r
 library(transNetwork)
-library(TransPhylo)
+#library(TransPhylo)
 ```
 
 ## Introduction
@@ -32,11 +32,11 @@ for (i in 1:numsim) {
     timetree <- build_timetree(outbreak, plot = FALSE)
     
     # 3. TransPhylo inference
-    ptree <- ptreeFromPhylo(timetree, dateLastSample = 2007.964)
-    res <- inferTTree(ptree, mcmcIterations = 10000, w.shape = 10, w.scale = 0.1, dateT = 2008)
+    ptree <- TransPhylo::ptreeFromPhylo(timetree, dateLastSample = 2007.964)
+    res <- TransPhylo::inferTTree(ptree, mcmcIterations = 10000, w.shape = 10, w.scale = 0.1, dateT = 2008)
 
     # 4. Process Who-Infected-Whom (WIW) matrix
-    matrixwiw <- computeMatWIW(res, burnin = 0.5)
+    matrixwiw <- TransPhylo::computeMatWIW(res, burnin = 0.5)
     
     # Use transNetwork utility to convert matrix to edge list
     netedges <- transmission_edges_matrixwiw(matrixwiw)
@@ -58,7 +58,7 @@ identifies the true source of infection for a given case.
 ``` r
 mean_acc <- mean(accuracy_scores)
 print(paste("Average Reconstruction Accuracy:", round(mean_acc, 3)))
-#> [1] "Average Reconstruction Accuracy: 0.389"
+#> [1] "Average Reconstruction Accuracy: 0.356"
 ```
 
 ## Visualizing the Reconstructed Network
