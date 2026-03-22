@@ -1,11 +1,10 @@
-# Simplified R-CMD-check for transNetwork
+name: R-CMD-check
+
 on:
   push:
     branches: [main, master]
   pull_request:
     branches: [main, master]
-
-name: R-CMD-check
 
 jobs:
   R-CMD-check:
@@ -20,6 +19,10 @@ jobs:
         with:
           use-public-rspm: true
 
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.10'
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update
@@ -30,7 +33,6 @@ jobs:
         run: |
           install.packages(c("remotes", "rcmdcheck"))
           remotes::install_deps(dependencies = TRUE)
-          # Explicitly ensuring TransPhylo is present
           if (!requireNamespace("TransPhylo", quietly = TRUE)) {
             remotes::install_github("xavierdidelot/TransPhylo")
           }
@@ -39,5 +41,6 @@ jobs:
       - name: Check
         uses: r-lib/actions/check-r-package@v2
         with:
-          args: '--no-manual --as-cran'
+          # Fixed the quoting that caused the 'no' object error
+          args: 'c("--no-manual", "--as-cran")'
           error-on: '"error"'
