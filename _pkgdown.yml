@@ -12,7 +12,13 @@ navbar:
     intro:
       text: Get Started
       href: index.html
-
+home:
+  links:
+    - text: betnet (Julia Inference)
+      href: https://github.com/lliu1871/betnet
+    - text: J. Math. Biol. 2025 Paper
+      href: https://doi.org/10.1007/s00285-025-02193-1
+      
 reference:
   - title: Simulation
     desc: Functions for generating stochastic outbreaks and trees.

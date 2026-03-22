@@ -6,7 +6,7 @@ The goal of **transNetwork** is to provide a unified framework for simulating, r
 ## Features
 
   * **Simulation**: Generate stochastic outbreaks with custom latent and infectious periods.
-  * **Reconstruction**: Build transmission trees from MCMC output (BetNet).
+  * **Reconstruction**: Summarize MCMC outputs from a Julia program Bayesian Estimation of Transmission Networks ([BetNet](https://github.com/lliu1871/betnet)).
   * **Phylogenetics**: Convert transmission histories into phylogenetic trees.
   * **Metrics**: Calculate pairwise transmission distances and Most Recent Common Infectors (MRCI).
   * **Visualization**: High-level plotting functions for networks, timelines, and trees.
