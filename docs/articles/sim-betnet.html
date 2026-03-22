@@ -70,10 +70,10 @@
 <div class="section level2">
 <h2 id="benchmarking-betnet-v2-0">Benchmarking betnet v2.0<a class="anchor" aria-label="anchor" href="#benchmarking-betnet-v2-0"></a>
 </h2>
-<p>This workflow evaluates the accuracy of the <strong>betnet</strong>
-Julia package by simulating a full genomic and temporal dataset. Unlike
-the TransPhylo workflow, this simulation explicitly models DNA sequence
-evolution using <code>seq-gen</code>.</p>
+<p>This workflow evaluates the accuracy of the <strong><a href="https://github.com/lliu1871/betnet" class="external-link">betnet</a></strong> Julia
+package by simulating a full genomic and temporal dataset. Unlike the
+TransPhylo workflow, this simulation explicitly models DNA sequence
+evolution using <a href="https://github.com/rambaut/Seq-Gen" class="external-link"><code>seq-gen</code></a>.</p>
 <div class="section level3">
 <h3 id="step-1-data-generation-and-julia-inference">Step 1: Data Generation and Julia Inference<a class="anchor" aria-label="anchor" href="#step-1-data-generation-and-julia-inference"></a>
 </h3>
@@ -114,7 +114,9 @@ perform the Bayesian inference.</p>
 <span>    <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span><span class="va">snp_mat</span>, file <span class="op">=</span> <span class="va">snpfile</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    </span>
 <span>    <span class="co"># 5. Execute betnet Inference via Julia CLI</span></span>
-<span>    <span class="va">betnet_cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"julia betnet2.0.jl -t "</span>, <span class="va">tempfile</span>, <span class="st">" -s "</span>, <span class="va">snpfile</span>, <span class="st">" -o parameter"</span>, <span class="va">i</span>, <span class="st">".csv"</span><span class="op">)</span></span>
+<span>    <span class="va">betnet_script</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"julia"</span>, <span class="st">"betnet2.0.jl"</span>, package <span class="op">=</span> <span class="st">"transNetwork"</span><span class="op">)</span></span>
+<span>    <span class="va">outputfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"parameter"</span>, <span class="va">i</span>, <span class="st">".csv"</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span></span>
+<span>    <span class="va">betnet_cmd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"julia"</span>, <span class="va">betnet_script</span>, <span class="st">"-t"</span>, <span class="va">tempfile</span>, <span class="st">"-s"</span>, <span class="va">snpfile</span>, <span class="st">"-o"</span>, <span class="va">outputfile</span><span class="op">)</span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/system.html" class="external-link">system</a></span><span class="op">(</span><span class="va">betnet_cmd</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 </div>

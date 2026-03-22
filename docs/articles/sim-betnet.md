@@ -2,10 +2,11 @@
 
 ## Benchmarking betnet v2.0
 
-This workflow evaluates the accuracy of the **betnet** Julia package by
+This workflow evaluates the accuracy of the
+**[betnet](https://github.com/lliu1871/betnet)** Julia package by
 simulating a full genomic and temporal dataset. Unlike the TransPhylo
 workflow, this simulation explicitly models DNA sequence evolution using
-`seq-gen`.
+[`seq-gen`](https://github.com/rambaut/Seq-Gen).
 
 ### Step 1: Data Generation and Julia Inference
 
@@ -47,7 +48,9 @@ for (i in 1:numsim) {
     write.csv(snp_mat, file = snpfile, row.names = FALSE)
     
     # 5. Execute betnet Inference via Julia CLI
-    betnet_cmd <- paste0("julia betnet2.0.jl -t ", tempfile, " -s ", snpfile, " -o parameter", i, ".csv")
+    betnet_script <- system.file("julia", "betnet2.0.jl", package = "transNetwork")
+    outputfile <- paste("parameter", i, ".csv", sep="")
+    betnet_cmd <- paste("julia", betnet_script, "-t", tempfile, "-s", snpfile, "-o", outputfile) 
     system(betnet_cmd)
 }
 ```

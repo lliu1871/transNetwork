@@ -15,7 +15,7 @@ library(ape)
 
 ## Benchmarking betnet v2.0
 
-This workflow evaluates the accuracy of the **betnet** Julia package by simulating a full genomic and temporal dataset. Unlike the TransPhylo workflow, this simulation explicitly models DNA sequence evolution using `seq-gen`.
+This workflow evaluates the accuracy of the **[betnet](https://github.com/lliu1871/betnet)** Julia package by simulating a full genomic and temporal dataset. Unlike the TransPhylo workflow, this simulation explicitly models DNA sequence evolution using [`seq-gen`](https://github.com/rambaut/Seq-Gen).
 
 ### Step 1: Data Generation and Julia Inference
 
