@@ -72,4 +72,4 @@ colors indicate the posterior probability of the transmission link.
 transplot(netedges, style = 1)
 ```
 
-![](outbreak-workflow_files/figure-html/visualization-1.png)
+![](sim-transphylo_files/figure-html/visualization-1.png)

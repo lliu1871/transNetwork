@@ -1,0 +1,81 @@
+# Betnet Performance Benchmarking
+
+## Benchmarking betnet v2.0
+
+This workflow evaluates the accuracy of the **betnet** Julia package by
+simulating a full genomic and temporal dataset. Unlike the TransPhylo
+workflow, this simulation explicitly models DNA sequence evolution using
+`seq-gen`.
+
+### Step 1: Data Generation and Julia Inference
+
+We simulate an outbreak and generate a 1Mb genome for each individual.
+The script then calls the `betnet2.0.jl` CLI to perform the Bayesian
+inference.
+
+``` r
+numsim <- 10
+set.seed(42)
+
+for (i in 1:numsim) {
+    # 1. Simulate Outbreak Truth
+    outbreak <- simulate_outbreak(infection_rate = 3.0, removal_rate = 3.0, target_size = 10)
+    write.csv(outbreak, paste0("outbreak", i, ".csv"))
+    numcase <- nrow(outbreak)
+
+    # 2. Extract Temporal Data (Infection and Removal times)
+    tempfile <- paste0("sim_temporal", i, ".csv")
+    write.csv(outbreak[, c(1, 5, 7)], file = tempfile, row.names = FALSE)
+
+    # 3. Simulate Genomic Sequence (DNA)
+    timetree <- build_timetree(outbreak, plot = FALSE)
+    phytree <- sim_phytree(timetree, murate = 10^-6)
+    ape::write.tree(phytree, "tree.tre")
+    
+    seqfile <- paste0("seq", i)
+    # Using seq-gen for HKY model evolution across a 1Mb genome
+    system(paste("seq-gen -mHKY -l1000000 tree.tre >", seqfile))
+
+    # 4. Calculate SNP Distance Matrix
+    dna_data <- ape::read.dna(seqfile)
+    dist_mat <- ape::dist.dna(dna_data, model = "N", as.matrix = TRUE)
+    
+    # Ensure indices match the temporal data
+    idx <- order(as.numeric(row.names(dist_mat)))
+    snp_mat <- dist_mat[idx, idx]
+    snpfile <- paste0("sim_snp", i, ".csv")
+    write.csv(snp_mat, file = snpfile, row.names = FALSE)
+    
+    # 5. Execute betnet Inference via Julia CLI
+    betnet_cmd <- paste0("julia betnet2.0.jl -t ", tempfile, " -s ", snpfile, " -o parameter", i, ".csv")
+    system(betnet_cmd)
+}
+```
+
+### Step 2: Accuracy Assessment
+
+After the Julia MCMC chains complete, we read the posterior samples back
+into R using `summary_betnet` to compare the inferred infectors against
+the simulation truth.
+
+``` r
+betnet_accuracy <- numeric(numsim)
+
+for (i in 1:numsim) {
+    # Load Truth and Estimation
+    outbreak_true <- read.csv(paste0("outbreak", i, ".csv"))[, -1]
+    input_mcmc <- paste0("parameter", i, ".csv")
+    
+    # Extract the MAP (Maximum A Posteriori) transmission network
+    outbreak_est <- summary_betnet(input_mcmc, 
+                                   onsite = outbreak_true$onsite_time, 
+                                   removal_time = outbreak_true$removal_time, 
+                                   plot = FALSE)$transmission
+    
+    # Calculate difference (0 indicates correct infector identification)
+    diff_table <- outbreak_est - outbreak_true
+    betnet_accuracy[i] <- sum(diff_table$infector == 0) / (nrow(outbreak_true) - 1)
+}
+
+cat("Mean betnet Accuracy:", mean(betnet_accuracy))
+```
