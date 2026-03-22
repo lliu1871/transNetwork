@@ -2,7 +2,7 @@
 
 ``` r
 library(transNetwork)
-#library(TransPhylo)
+library(TransPhylo)
 ```
 
 ## Introduction

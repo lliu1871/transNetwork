@@ -1,0 +1,76 @@
+---
+title: "Evaluating Transmission Reconstruction Accuracy"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Evaluating Transmission Reconstruction Accuracy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(transNetwork)
+library(TransPhylo)
+```
+
+## Introduction
+
+This vignette demonstrates how to evaluate the accuracy of the **TransPhylo** inference engine using the utility functions in `transNetwork`. We simulate a "ground truth" outbreak, perform Bayesian inference, and then compare the results to see how many infector-infectee pairs were correctly identified.
+
+## The Simulation Loop
+
+In this example, we run `numsim` iterations. For each iteration, we simulate a small outbreak of 10 individuals.
+
+```{r simulation}
+set.seed(42)
+numsim <- 10
+accuracy_scores <- numeric(numsim)
+
+for (i in 1:numsim) {
+    # 1. Simulate an outbreak with R0 = 1.0 (infection_rate / removal_rate)
+    outbreak <- simulate_outbreak(infection_rate = 3.0, removal_rate = 3.0, target_size = 10)
+    numcase <- nrow(outbreak)
+
+    # 2. Build the phylogenetic time tree (the input for TransPhylo)
+    timetree <- build_timetree(outbreak, plot = FALSE)
+    
+    # 3. TransPhylo inference
+    ptree <- TransPhylo::ptreeFromPhylo(timetree, dateLastSample = 2007.964)
+    res <- TransPhylo::inferTTree(ptree, mcmcIterations = 10000, w.shape = 10, w.scale = 0.1, dateT = 2008)
+
+    # 4. Process Who-Infected-Whom (WIW) matrix
+    matrixwiw <- TransPhylo::computeMatWIW(res, burnin = 0.5)
+    
+    # Use transNetwork utility to convert matrix to edge list
+    netedges <- transmission_edges_matrixwiw(matrixwiw)
+    
+    # 5. Calculate Accuracy
+    # Compare the inferred infector (Column 2 of netedges) with the truth (Column 2 of outbreak)
+    correct_matches <- length(which(as.numeric(netedges[, 2]) - outbreak[, 2] == 0)) 
+    accuracy_scores[i] <- correct_matches / (numcase-1)
+}
+```
+
+## Results and Analysis
+
+Once the simulations are complete, we can calculate the mean accuracy. This metric represents the probability that the model correctly identifies the true source of infection for a given case.
+
+```{r results}
+mean_acc <- mean(accuracy_scores)
+print(paste("Average Reconstruction Accuracy:", round(mean_acc, 3)))
+```
+
+## Visualizing the Reconstructed Network
+
+Finally, we can use `transplot` to visualize the network from the final simulation. In this plot, the source is highlighted in grey, and edge colors indicate the posterior probability of the transmission link.
+
+```{r visualization, fig.width=7, fig.height=7}
+# Plotting the last simulated network
+transplot(netedges, style = 1)
+```
