@@ -16,11 +16,12 @@ Imports:
     graphics,
     stats,
     phybase,
-    igraph
+    igraph,
+    TransPhylo
 Remotes: 
-    lliu1871/phybase
+    lliu1871/phybase,
+    xavierdidelot/TransPhylo
 Suggests: 
     knitr,
-    rmarkdown,
-    TransPhylo
+    rmarkdown
 VignetteBuilder: knitr
