@@ -21,5 +21,6 @@ Remotes:
     lliu1871/phybase
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    TransPhylo
 VignetteBuilder: knitr

@@ -2,7 +2,7 @@
 title: "Betnet Performance Benchmarking"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{betnet-benchmark}
+  %\VignetteIndexEntry{Betnet Performance Benchmarking}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
