@@ -25,3 +25,7 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+SystemRequirements: 
+    Julia (>= 1.9), 
+    seq-gen, 
+    betnet (Julia package: https://github.com/lliu1871/betnet)

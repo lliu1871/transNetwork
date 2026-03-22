@@ -40,6 +40,15 @@ jobs:
           }
         shell: Rscript {0}
 
+      - name: Install Julia Dependencies
+        run: |
+          julia -e '
+            using Pkg;
+            Pkg.add(url="https://github.com/lliu1871/betnet");
+            Pkg.instantiate();
+          '
+        shell: bash
+
       - name: Check
         uses: r-lib/actions/check-r-package@v2
         with:
