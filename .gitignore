@@ -1,0 +1,30 @@
+# --- macOS System Files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- R specific ---
+.Rhistory
+.RData
+.Ruserdata
+*-Ex.R
+/vignettes/*.html
+/vignettes/*.pdf
+.Rproj.user/
+*.Rcheck/
+/doc/
+/Meta/
+
+# --- Julia specific ---
+deps/deps.jl
+docs/build/
+docs/site/
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+manifest.toml.bak
+
+# --- Compiled Code (Important for GACRC compatibility) ---
+src/*.o
+src/*.so
+src/*.dll

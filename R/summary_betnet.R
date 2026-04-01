@@ -1,13 +1,14 @@
 #' Summary and Parameter Estimation for BetNet Output
 #'
-#' Processes MCMC output from BetNet, generates convergence plots, 
-#' calculates posterior means for parameters, and reconstructs the 
-#' most likely transmission network.
+#' Processes MCMC output from BetNet, generates convergence plots,
+#' calculates posterior means for parameters, reconstructs the
+#' most likely transmission network, and identifies direct transmission events.
 #'
 #' @param betnet_output_file String. Path to the CSV output from BetNet.
+#' @param snp_file String. Path to the CSV file containing observed SNP differences.
+#' @param time_file String. Path to the CSV file containing onsite and removal times.
 #' @param burnin Numeric. Proportion of initial iterations to discard (default 0.1).
-#' @param onsite_time Numeric vector. Onsite times for cases in the outbreak.
-#' @param removal_time Numeric vector. Removal times for cases in the outbreak.
+#' @param genome_size Numeric. Size of the genome in base pairs (default 1,000,000).
 #' @param plot Logical. If TRUE, displays MCMC trace plots.
 #'
 #' @return A list containing:
@@ -20,7 +21,9 @@
 #' @importFrom utils read.csv
 #' @importFrom graphics par plot
 #' @export
-summary_betnet <- function(betnet_output_file, burnin = 0.1, onsite_time, removal_time, plot = TRUE) {
+summary_betnet <- function(betnet_output_file, snp_file, time_file, burnin = 0.1, genome_size = 1000000, plot = TRUE) {
+  tempdata <- read.csv(time_file)
+  snp <- read.csv(snp_file)
   output <- read.csv(betnet_output_file)
   numcase <- (dim(output)[2] - 6) / 2
   transmission <- data.frame(
@@ -32,10 +35,13 @@ summary_betnet <- function(betnet_output_file, burnin = 0.1, onsite_time, remova
     infectious_period = numeric(numcase),
     removal_time = numeric(numcase),
     prob = numeric(numcase),
+    obs_snp = numeric(numcase),
+    threshold = numeric(numcase),
+    direct_transmission = logical(numcase),
     stringsAsFactors = FALSE
   )
-  transmission$onsite_time <- onsite_time
-  transmission$removal_time <- removal_time
+  transmission$onsite_time <- tempdata$onsite_time
+  transmission$removal_time <- tempdata$removal_time
 
   # convergence plots
   if (plot) {
@@ -74,6 +80,17 @@ summary_betnet <- function(betnet_output_file, burnin = 0.1, onsite_time, remova
   transmission$infection_time <- inftime
   transmission$latent_period <- transmission$onsite_time - transmission$infection_time
   transmission$infectious_period <- transmission$removal_time - transmission$onsite_time
+
+  infectee <- transmission$infectee[-1]
+  infector <- transmission$infector[-1]
+  divergence_time <- transmission$removal_time[infector] + transmission$removal_time[infectee] - 2 * transmission$infection_time[infectee]
+  prob_mutation <- 3 / 4 - 3 / (8 * theta_est + 4) * exp(-mu_est * divergence_time)
+  expected_snp <- genome_size * prob_mutation
+  transmission$obs_snp[2:numcase] <- snp[cbind(infectee, infector)]
+  transmission$threshold[2:numcase] <- qbinom(0.95, size = genome_size, prob = prob_mutation)
+  transmission$direct_transmission[2:numcase] <- (transmission$obs_snp[2:numcase] < transmission$threshold[2:numcase])
+  transmission$direct_transmission[1] <- NA
+  transmission$threshold[1] <- NA
+  transmission$obs_snp[1] <- NA
   list(theta = theta_est, mu = mu_est, infrate = infrate_est, transmission = transmission)
 }
-

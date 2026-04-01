@@ -6,20 +6,23 @@
 \usage{
 summary_betnet(
   betnet_output_file,
+  snp_file,
+  time_file,
   burnin = 0.1,
-  onsite_time,
-  removal_time,
+  genome_size = 1e+06,
   plot = TRUE
 )
 }
 \arguments{
 \item{betnet_output_file}{String. Path to the CSV output from BetNet.}
 
+\item{snp_file}{String. Path to the CSV file containing observed SNP differences.}
+
+\item{time_file}{String. Path to the CSV file containing onsite and removal times.}
+
 \item{burnin}{Numeric. Proportion of initial iterations to discard (default 0.1).}
 
-\item{onsite_time}{Numeric vector. Onsite times for cases in the outbreak.}
-
-\item{removal_time}{Numeric vector. Removal times for cases in the outbreak.}
+\item{genome_size}{Numeric. Size of the genome in base pairs (default 1,000,000).}
 
 \item{plot}{Logical. If TRUE, displays MCMC trace plots.}
 }
@@ -34,6 +37,6 @@ A list containing:
 }
 \description{
 Processes MCMC output from BetNet, generates convergence plots,
-calculates posterior means for parameters, and reconstructs the
-most likely transmission network.
+calculates posterior means for parameters, reconstructs the
+most likely transmission network, and identifies direct transmission events.
 }
