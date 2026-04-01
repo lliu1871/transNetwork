@@ -1,5 +1,4 @@
 using betnet
-using Distributions
 using ArgParse
 
 function parse_commandline()
