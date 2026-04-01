@@ -136,8 +136,8 @@ infectors against the simulation truth.</p>
 <span>    </span>
 <span>    <span class="co"># Extract the MAP (Maximum A Posteriori) transmission network</span></span>
 <span>    <span class="va">outbreak_est</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summary_betnet.html">summary_betnet</a></span><span class="op">(</span><span class="va">input_mcmc</span>, </span>
-<span>                                   onsite <span class="op">=</span> <span class="va">outbreak_true</span><span class="op">$</span><span class="va">onsite_time</span>, </span>
-<span>                                   removal_time <span class="op">=</span> <span class="va">outbreak_true</span><span class="op">$</span><span class="va">removal_time</span>, </span>
+<span>                                   <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sim_snp"</span>, <span class="va">i</span>, <span class="st">".csv"</span><span class="op">)</span>,</span>
+<span>                                   <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"sim_temporal"</span>, <span class="va">i</span>, <span class="st">".csv"</span><span class="op">)</span>,</span>
 <span>                                   plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">$</span><span class="va">transmission</span></span>
 <span>    </span>
 <span>    <span class="co"># Calculate difference (0 indicates correct infector identification)</span></span>

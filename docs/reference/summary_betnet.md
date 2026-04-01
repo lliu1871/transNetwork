@@ -1,17 +1,18 @@
 # Summary and Parameter Estimation for BetNet Output
 
 Processes MCMC output from BetNet, generates convergence plots,
-calculates posterior means for parameters, and reconstructs the most
-likely transmission network.
+calculates posterior means for parameters, reconstructs the most likely
+transmission network, and identifies direct transmission events.
 
 ## Usage
 
 ``` r
 summary_betnet(
   betnet_output_file,
+  snp_file,
+  time_file,
   burnin = 0.1,
-  onsite_time,
-  removal_time,
+  genome_size = 1e+06,
   plot = TRUE
 )
 ```
@@ -22,17 +23,21 @@ summary_betnet(
 
   String. Path to the CSV output from BetNet.
 
+- snp_file:
+
+  String. Path to the CSV file containing observed SNP differences.
+
+- time_file:
+
+  String. Path to the CSV file containing onsite and removal times.
+
 - burnin:
 
   Numeric. Proportion of initial iterations to discard (default 0.1).
 
-- onsite_time:
+- genome_size:
 
-  Numeric vector. Onsite times for cases in the outbreak.
-
-- removal_time:
-
-  Numeric vector. Removal times for cases in the outbreak.
+  Numeric. Size of the genome in base pairs (default 1,000,000).
 
 - plot:
 
