@@ -76,8 +76,8 @@ for (i in 1:numsim) {
     
     # Extract the MAP (Maximum A Posteriori) transmission network
     outbreak_est <- summary_betnet(input_mcmc, 
-                                   onsite = outbreak_true$onsite_time, 
-                                   removal_time = outbreak_true$removal_time, 
+                                   paste0("sim_snp", i, ".csv"),
+                                   paste0("sim_temporal", i, ".csv"),
                                    plot = FALSE)$transmission
     
     # Calculate difference (0 indicates correct infector identification)
