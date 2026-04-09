@@ -83,8 +83,10 @@ summary_betnet <- function(betnet_output_file, snp_file, time_file, burnin = 0.1
 
   infectee <- transmission$infectee[-1]
   infector <- transmission$infector[-1]
-  divergence_time <- transmission$removal_time[infector] + transmission$removal_time[infectee] - 2 * transmission$infection_time[infectee]
-  prob_mutation <- 3 / 4 - 3 / (8 * theta_est + 4) * exp(-mu_est * divergence_time)
+  
+  # maximum divergence time for a direct transmission
+  divergence_time <- transmission$removal_time[infector] + transmission$removal_time[infectee] - 2 * transmission$infection_time[infector]
+  prob_mutation <- 3 / 4 - 3 / 4 * exp(-mu_est * divergence_time)
   expected_snp <- genome_size * prob_mutation
   transmission$obs_snp[2:numcase] <- snp[cbind(infectee, infector)]
   transmission$threshold[2:numcase] <- qbinom(0.95, size = genome_size, prob = prob_mutation)
