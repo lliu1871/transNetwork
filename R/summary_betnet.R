@@ -90,7 +90,7 @@ summary_betnet <- function(betnet_output_file, snp_file, time_file, burnin = 0.1
   expected_snp <- genome_size * prob_mutation
   transmission$obs_snp[2:numcase] <- snp[cbind(infectee, infector)]
   transmission$threshold[2:numcase] <- qbinom(0.95, size = genome_size, prob = prob_mutation)
-  transmission$direct_transmission[2:numcase] <- (transmission$obs_snp[2:numcase] < transmission$threshold[2:numcase])
+  transmission$direct_transmission[2:numcase] <- (transmission$obs_snp[2:numcase] <= transmission$threshold[2:numcase])
   transmission$direct_transmission[1] <- NA
   transmission$threshold[1] <- NA
   transmission$obs_snp[1] <- NA
